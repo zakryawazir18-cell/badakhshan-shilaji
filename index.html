@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Badakhshan Shilajit | Authentic Pamir Resin</title>
+  <meta name="description" content="Natural Shilajit resin from the mountains of Badakhshan, delivered to your door.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2222%22 fill=%22%230a0907%22/><text x=%2250%22 y=%2268%22 font-size=%2260%22 text-anchor=%22middle%22 fill=%22%23d4a24c%22 font-family=%22serif%22>B</text></svg>">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+  <video id="bgVideo" autoplay muted loop playsinline preload="metadata">
+    <source src="video/bg.mp4" type="video/mp4">
+  </video>
+  <div class="video-overlay"></div>
+
+  <div class="ticker" aria-label="Store information">
+    <div class="ticker-track">
+      <span>Cash on Delivery</span><span>Order Tracking</span><span>Sealed Packing</span><span>Badakhshan Shilajit</span>
+      <span aria-hidden="true">Cash on Delivery</span><span aria-hidden="true">Order Tracking</span><span aria-hidden="true">Sealed Packing</span><span aria-hidden="true">Badakhshan Shilajit</span>
+    </div>
+  </div>
+
+  <header class="nav">
+    <a href="#home" class="logo">BADAKHSHAN <span>SHILAJIT</span></a>
+    <nav>
+      <a href="#products">Products</a>
+      <a href="#story">Our Story</a>
+      <a href="#process">Process</a>
+      <a href="track.html">Track Order</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <div class="nav-right">
+      <a href="#products" class="btn btn-sm">Shop</a>
+      <button class="cart-btn" id="cartOpen" aria-label="Open cart">Cart <span id="cartCount">0</span></button>
+    </div>
+  </header>
+
+  <nav class="tabsbar" id="tabsbar" aria-label="Sections">
+    <a href="#home" class="on">Home</a>
+    <a href="#products">Products</a>
+    <a href="#story">Story</a>
+    <a href="#process">Process</a>
+    <a href="track.html">Track Order</a>
+    <a href="#faq">FAQ</a>
+    <a href="#contact">Contact</a>
+  </nav>
+  <main id="main"></main>
+  <section id="home" class="hero">
+    <p class="eyebrow">Sourced in Badakhshan</p>
+    <h1>The Rarest Resin<br>of the <em>Pamir Mountains</em></h1>
+    <p class="lead">Natural Shilajit resin from the mountains of Badakhshan, delivered to your door.</p>
+    <div class="cta">
+      <a href="#products" class="btn">Shop Shilajit</a>
+      <a href="#story" class="btn btn-ghost">Our Story</a>
+    </div>
+    <div class="scroll-hint">Scroll</div>
+  </section>
+
+  <section class="trust">
+    <div><b>Cash on Delivery</b><span>Pay when it arrives</span></div>
+    <div><b>Order Tracking</b><span>Follow your parcel</span></div>
+    <div><b>Sealed Packing</b><span>Labelled before dispatch</span></div>
+  </section>
+
+  <section id="products" class="section dark">
+    <div class="wrap">
+      <p class="eyebrow center">Products</p>
+      <h2 class="center">Choose Your Jar</h2>
+      <div class="cards three" id="productGrid">
+        <p class="center" style="grid-column:1/-1;color:var(--muted)">Loading products…</p>
+      </div>
+      <p class="note center">These products are not intended to diagnose, treat or cure any disease.</p>
+    </div>
+  </section>
+
+  <section id="story" class="section">
+    <div class="wrap two-col">
+      <div class="reveal">
+        <p class="eyebrow">Our Story</p>
+        <h2>From Untouched Peaks<br>to Your Hands</h2>
+      </div>
+      <div class="reveal">
+        <p>Shilajit forms slowly in the rocky cliffs of the Pamir and Hindu Kush ranges, where it has been gathered for generations by mountain families of Badakhshan.</p>
+        <p>We work directly with local collectors and pack every order with care.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section dark">
+    <div class="wrap">
+      <p class="eyebrow center">Why Badakhshan Shilajit</p>
+      <h2 class="center">Why Choose Us</h2>
+      <div class="cards">
+        <article class="card reveal"><h3>Direct Sourcing</h3><p>Collected by trusted mountain families, no middlemen.</p></article>
+        <article class="card reveal"><h3>Careful Packaging</h3><p>Sealed and packed with care.</p></article>
+        <article class="card reveal"><h3>Traditional Purification</h3><p>Slow, careful process that keeps the resin natural.</p></article>
+        <article class="card reveal"><h3>Order Tracking</h3><p>Track your order with your order number.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section id="process" class="section">
+    <div class="wrap">
+      <p class="eyebrow center">The Process</p>
+      <h2 class="center">Four Steps, Zero Shortcuts</h2>
+      <ol class="steps">
+        <li class="reveal"><b>01</b><h3>Harvest</h3><p>Collected by hand from high rock faces.</p></li>
+        <li class="reveal"><b>02</b><h3>Purify</h3><p>Filtered with clean spring water.</p></li>
+        <li class="reveal"><b>03</b><h3>Pack</h3><p>Sealed and labelled before dispatch.</p></li>
+        <li class="reveal"><b>04</b><h3>Deliver</h3><p>Shipped to your door.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="reels" class="section" hidden>
+    <div class="wrap">
+      <p class="eyebrow center">Reels</p>
+      <h2 class="center">See It In Motion</h2>
+    </div>
+    <div class="reel-stage">
+      <div class="reel-track" id="reelTrack" aria-label="Reels"></div>
+    </div>
+  </section>
+
+  <section id="faq" class="section dark">
+    <div class="wrap narrow">
+      <p class="eyebrow center">FAQ</p>
+      <h2 class="center">Questions, Answered</h2>
+      <div class="faq">
+        <details><summary>How do I place an order?</summary><p>Add a jar to your cart, tap Checkout and fill in your delivery details. You pay by Cash on Delivery. You can also message us on WhatsApp.</p></details>
+        <details><summary>How can I track my order?</summary><p>Use the order number shown after checkout on the <a href="track.html">Track Order</a> page, with the phone number you ordered with.</p></details>
+        <details><summary>Which sizes are available?</summary><p>Each product shows its available sizes and prices. Sold-out sizes are marked on the product card.</p></details>
+        <details><summary>What if I am not happy with my order?</summary><p>Please read our <a href="info.html#returns">Returns and Refunds</a> policy or message us on WhatsApp.</p></details>
+        <details><summary>Is this a medicine?</summary><p>No. It is a natural product and is not intended to diagnose, treat or cure any disease. Please consult a healthcare professional before use.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="section">
+    <div class="wrap narrow">
+      <p class="eyebrow center">Contact</p>
+      <h2 class="center">Ask Us Anything</h2>
+      <form id="orderForm" class="form">
+        <input type="text" name="name" placeholder="Your name" required minlength="2" maxlength="100">
+        <input type="tel" name="phone" placeholder="Phone / WhatsApp" maxlength="30">
+        <textarea name="message" rows="4" placeholder="Your question" required minlength="3" maxlength="2000"></textarea>
+        <button type="submit" class="btn">Send Question</button>
+        <p class="form-msg" id="inquiryMsg" role="status"></p>
+      </form>
+    </div>
+  </section>
+  </main>
+  <footer class="footer">
+    <div class="foot-grid">
+      <div>
+        <a href="#home" class="logo">BADAKHSHAN <span>SHILAJIT</span></a>
+        <p class="foot-about">Natural Shilajit resin from the mountains of Badakhshan.</p>
+      </div>
+      <div>
+        <h4>Shop</h4>
+        <a href="#products">Products</a>
+        <a href="track.html">Track Order</a>
+        <a href="#faq">FAQ</a>
+      </div>
+      <div>
+        <h4>Policies</h4>
+        <a href="info.html#shipping">Shipping &amp; Delivery</a>
+        <a href="info.html#returns">Returns &amp; Refunds</a>
+        <a href="info.html#privacy">Privacy Policy</a>
+        <a href="info.html#terms">Terms &amp; Conditions</a>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <a id="footWa" href="#" target="_blank" rel="noopener">Chat on WhatsApp</a>
+        <a href="#contact">Send a question</a>
+      </div>
+    </div>
+    <p class="copy">© <span id="year"></span> Badakhshan Shilajit. All rights reserved.</p>
+  </footer>
+
+  <nav class="bbar" id="bbar" aria-label="Quick navigation">
+    <a href="#home"><svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>Home</a>
+    <a href="#products"><svg viewBox="0 0 24 24"><path d="M5 8h14l-1 12H6zM9 8a3 3 0 0 1 6 0"/></svg>Shop</a>
+    <a href="track.html"><svg viewBox="0 0 24 24"><path d="M12 22s7-6 7-12a7 7 0 0 0-14 0c0 6 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg>Track</a>
+    <button type="button" id="bbCart"><svg viewBox="0 0 24 24"><path d="M3 4h3l2 12h11l2-8H7"/><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/></svg>Cart<i id="bbCount">0</i></button>
+    <a id="bbWa" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M4 20l1.3-4A8 8 0 1 1 8 18.700z"/></svg>Chat</a>
+  </nav>
+
+  <a class="wa-float" id="waFloat" target="_blank" rel="noopener" aria-label="WhatsApp">WhatsApp</a>
+
+  <div class="drawer-bg" id="drawerBg"></div>
+  <aside class="drawer" id="cartDrawer" aria-label="Shopping cart">
+    <div class="drawer-head">
+      <h3>Your Cart</h3>
+      <button class="icon-btn" data-act="close" aria-label="Close cart">✕</button>
+    </div>
+    <div class="drawer-body" id="cartBody"></div>
+    <div class="drawer-foot" id="cartFoot"></div>
+  </aside>
+
+  <div class="modal-bg" id="modalBg">
+    <div class="modal" role="dialog" aria-modal="true" aria-label="Product details">
+      <button class="icon-btn modal-x" data-act="close-modal" aria-label="Close">✕</button>
+      <div id="modalBox"></div>
+    </div>
+  </div>
+
+  <div class="modal-bg" id="checkoutBg">
+    <div class="modal" role="dialog" aria-modal="true" aria-label="Checkout">
+      <button class="icon-btn modal-x" id="checkoutX" aria-label="Close">✕</button>
+      <div id="checkoutBox"></div>
+    </div>
+  </div>
+
+  <script src="config.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

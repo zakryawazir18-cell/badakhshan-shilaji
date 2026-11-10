@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Track Order | Badakhshan Shilajit</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+  <header class="sub-nav">
+    <a href="index.html" class="logo">BADAKHSHAN <span>SHILAJIT</span></a>
+    <a href="index.html#products" class="btn btn-sm">Shop</a>
+  </header>
+  <main class="page">
+    <p class="eyebrow">Order status</p>
+    <h1>Track Your Order</h1>
+    <p>Enter your order number and the phone number you used when ordering.</p>
+    <form class="t-form" id="tForm">
+      <input id="tNo" placeholder="Order number, e.g. BS-261021-AB12C" required maxlength="40" autocomplete="off">
+      <input id="tPhone" type="tel" placeholder="Phone number" required maxlength="30" autocomplete="tel">
+      <button class="btn" type="submit" id="tBtn">Track Order</button>
+    </form>
+    <div class="t-result" id="tRes" role="status"></div>
+  </main>
+  <script src="config.js"></script>
+  <script>
+    const db = window.supabase.createClient(window.SITE.supabaseUrl, window.SITE.supabaseKey);
+    const ORDER = ["Pending", "Confirmed", "Processing", "Shipped", "Delivered"];
+    document.getElementById("tForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById("tBtn"), res = document.getElementById("tRes");
+      btn.disabled = true; btn.textContent = "Checking…";
+      const { data, error } = await db.rpc("track_order", {
+        p_order_no: document.getElementById("tNo").value,
+        p_phone: document.getElementById("tPhone").value
+      });
+      btn.disabled = false; btn.textContent = "Track Order";
+      res.className = "t-result show";
+      res.textContent = "";
+      if (error) { res.textContent = "Something went wrong. Please try again."; return; }
+      if (!data) { res.textContent = "No order found. Please check the order number and phone number."; return; }
+      const h = document.createElement("h3");
+      h.textContent = data.order_no;
+      const s = document.createElement("p");
+      s.textContent = "Status: " + data.status;
+      const t = document.createElement("p");
+      t.textContent = "Total: " + window.SITE.currency + " " + Number(data.total).toLocaleString() +
+        " · Placed on " + new Date(data.created_at).toLocaleDateString();
+      res.append(h, s, t);
+      if (data.status === "Cancelled") return;
+      const line = document.createElement("div");
+      line.className = "steps-line";
+      const idx = ORDER.indexOf(data.status);
+      ORDER.forEach((n, i) => {
+        const sp = document.createElement("span");
+        sp.textContent = n;
+        if (i <= idx) sp.className = "on";
+        line.appendChild(sp);
+      });
+      res.appendChild(line);
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Admin | Badakhshan Shilajit</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    :root{--bg:#0a0907;--panel:#12100c;--gold:#d4a24c;--gold2:#f3d48a;--text:#f4efe6;--muted:#a89f8d;--line:rgba(212,162,76,.25);--bad:#ff8a80}
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{background:var(--bg);color:var(--text);font-family:system-ui,Segoe UI,Arial,sans-serif;line-height:1.5;min-height:100vh}
+    button,input,select,textarea{font-family:inherit;font-size:1rem}
+    .hidden{display:none !important}
+    .btn{background:linear-gradient(135deg,var(--gold2),var(--gold));color:#1a1305;border:none;border-radius:10px;padding:11px 20px;font-weight:600;cursor:pointer}
+    .btn.ghost{background:transparent;color:var(--gold2);border:1px solid var(--gold)}
+    .btn[disabled]{opacity:.6;cursor:wait}
+    input,select,textarea{width:100%;padding:12px 14px;background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:10px;color:var(--text)}
+    input:focus,select:focus,textarea:focus{outline:none;border-color:var(--gold)}
+    label{display:block;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);margin:12px 0 6px}
+    #loginView{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+    .login-box{width:min(400px,100%);background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:34px 28px}
+    .login-box h1{font-size:1.4rem;margin-bottom:4px}
+    .login-box p.sub{color:var(--muted);margin-bottom:10px;font-size:.9rem}
+    .login-box .btn{width:100%;margin-top:18px}
+    .err{color:var(--bad);min-height:1.3em;margin-top:10px;font-size:.9rem}
+    .top{display:flex;justify-content:space-between;align-items:center;padding:14px 20px;border-bottom:1px solid var(--line);background:var(--panel);position:sticky;top:0;z-index:5}
+    .top b{letter-spacing:.12em}
+    .top b span{color:var(--gold)}
+    .who{color:var(--muted);font-size:.85rem;margin-right:12px}
+    .tabs{display:flex;gap:6px;padding:12px 20px;overflow-x:auto;border-bottom:1px solid var(--line)}
+    .tabs button{background:none;border:1px solid transparent;color:var(--muted);padding:9px 16px;border-radius:50px;cursor:pointer;white-space:nowrap}
+    .tabs button.active{border-color:var(--gold);color:var(--gold2)}
+    main{padding:24px 20px;max-width:1100px;margin:0 auto}
+    h2{margin-bottom:16px;font-size:1.3rem}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+    .stat{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px}
+    .stat small{display:block;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;font-size:.72rem}
+    .stat strong{font-size:1.8rem;color:var(--gold2)}
+    table{width:100%;border-collapse:collapse;margin-top:10px}
+    th,td{padding:10px 8px;border-bottom:1px solid var(--line);text-align:left;font-size:.92rem;vertical-align:middle}
+    th{color:var(--gold);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase}
+    .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:16px}
+    .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .msg{min-height:1.3em;margin:8px 0;font-size:.9rem;color:var(--gold2)}
+    .msg.bad{color:var(--bad)}
+    .thumb{width:100%;max-width:220px;border-radius:10px;border:1px solid var(--line);margin-top:8px;display:block}
+    .tablewrap{overflow-x:auto}
+        .neworder{
+      display:flex;justify-content:space-between;align-items:center;gap:12px;
+      margin:0;padding:12px 20px;background:linear-gradient(90deg,#8a6420,var(--gold),#8a6420);
+      color:#1a1305;font-weight:600;cursor:pointer;
+    }
+    .neworder button{background:#1a1305;color:var(--gold2);border:0;border-radius:8px;padding:6px 14px;cursor:pointer;font-weight:600}
+    @media(max-width:600px){.row2{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+
+  <div id="loginView" class="hidden">
+    <form class="login-box" id="loginForm">
+      <h1>BADAKHSHAN <span style="color:var(--gold)">SHILAJIT</span></h1>
+      <p class="sub">Admin login</p>
+      <label for="email">Email</label>
+      <input id="email" type="email" autocomplete="username" required>
+      <label for="password">Password</label>
+      <input id="password" type="password" autocomplete="current-password" required>
+      <p class="err" id="loginErr" role="alert"></p>
+      <button class="btn" type="submit" id="loginBtn">Log in</button>
+    </form>
+  </div>
+
+  <div id="appView" class="hidden">
+    <div class="top">
+      <b>BADAKHSHAN <span>SHILAJIT</span> · ADMIN</b>
+      <div><span class="who" id="who"></span><button class="btn ghost" id="logoutBtn">Log out</button></div>
+    </div>
+
+    <div class="tabs" id="tabs">
+      <button data-tab="overview" class="active">Overview</button>
+      <button data-tab="orders">Orders</button>
+      <button data-tab="products">Products</button>
+      <button data-tab="reels">Reels</button>
+      <button data-tab="inquiries">Inquiries</button>
+      <button data-tab="settings">Settings</button>
+    </div>
+    <div class="neworder hidden" id="newOrderBar" role="alert">
+      <span id="newOrderText"></span>
+      <button type="button" id="newOrderGo">View orders</button>
+    </div>
+    <main>
+      <section data-panel="overview">
+        <h2>Overview</h2>
+        <div class="grid">
+          <div class="stat"><small>Total orders</small><strong id="stOrders">…</strong></div>
+          <div class="stat"><small>Pending orders</small><strong id="stPending">…</strong></div>
+          <div class="stat"><small>Sales (excl. cancelled)</small><strong id="stSales">…</strong></div>
+          <div class="stat"><small>New inquiries</small><strong id="stInq">…</strong></div>
+        </div>
+      </section>
+
+      <section data-panel="orders" class="hidden">
+        <h2>Orders</h2>
+        <div class="card">
+          <label for="orderFilter">Filter by status</label>
+          <select id="orderFilter">
+            <option value="">All</option>
+            <option>Pending</option><option>Confirmed</option><option>Processing</option>
+            <option>Shipped</option><option>Delivered</option><option>Cancelled</option>
+          </select>
+          <p class="msg" id="orderMsg" role="status"></p>
+          <div class="tablewrap">
+            <table>
+              <thead><tr><th>Order</th><th>Customer</th><th>City</th><th>Total</th><th>Status</th><th></th></tr></thead>
+              <tbody id="ordersBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section data-panel="products" class="hidden">
+        <h2>Products</h2>
+
+        <div class="card">
+          <label for="p_pick">Product</label>
+          <select id="p_pick"></select>
+          <div style="display:flex;gap:10px;margin-top:12px;flex-wrap:wrap">
+            <button class="btn" type="button" id="pNew">+ New product</button>
+            <button class="btn ghost" type="button" id="pDel">Delete this product</button>
+          </div>
+        </div>
+
+        <div class="card" id="productCard">
+          <h3 style="margin-bottom:6px">Product details</h3>
+          <form id="productForm">
+            <label for="p_name">Name</label><input id="p_name" maxlength="120" required>
+            <label for="p_short">Short description</label><input id="p_short" maxlength="200">
+            <label for="p_desc">Full description</label><textarea id="p_desc" rows="3" maxlength="2000"></textarea>
+            <div class="row2">
+              <div><label for="p_usage">Directions for use</label><textarea id="p_usage" rows="3" maxlength="1000"></textarea></div>
+              <div><label for="p_storage">Storage</label><textarea id="p_storage" rows="3" maxlength="1000"></textarea></div>
+            </div>
+            <div class="row2">
+              <div><label for="p_batch">Batch number</label><input id="p_batch" maxlength="60"></div>
+              <div><label for="p_active">Visible on website</label>
+                <select id="p_active"><option value="true">Shown</option><option value="false">Hidden</option></select></div>
+            </div>
+            <label for="p_image">Main product image (used for sizes without their own image)</label>
+            <input id="p_image" type="file" accept="image/jpeg,image/png,image/webp">
+            <img id="p_preview" class="thumb hidden" alt="Product image preview">
+            <p class="msg" id="productMsg" role="status"></p>
+            <button class="btn" type="submit" id="productBtn">Save product</button>
+          </form>
+        </div>
+
+        <div class="card" id="variantCard">
+          <h3 style="margin-bottom:6px">Sizes, prices, images and stock</h3>
+          <p style="color:var(--muted);font-size:.85rem">Weight is in grams (500 g = half kg, 1000 g = 1 kg). Stock = jars in hand; leave empty to not count.</p>
+          <div class="tablewrap">
+            <table>
+              <thead><tr><th>Image</th><th>Size name</th><th>Weight (g)</th><th>Price</th><th>Stock</th><th>Status</th><th></th></tr></thead>
+              <tbody id="variantRows"></tbody>
+            </table>
+          </div>
+          <h3 style="margin:22px 0 4px">Add a new size</h3>
+          <div class="row2">
+            <div><label for="v_label">Size name</label><input id="v_label" maxlength="30" placeholder="e.g. 1 kg"></div>
+            <div><label for="v_weight">Weight (g)</label><input id="v_weight" type="number" min="0" placeholder="1000"></div>
+          </div>
+          <div class="row2">
+            <div><label for="v_price">Price</label><input id="v_price" type="number" min="0" step="1"></div>
+            <div><label for="v_stock">Stock (jars in hand, empty = not counted)</label><input id="v_stock" type="number" min="0" step="1"></div>
+          </div>
+          <label for="v_img">Image (optional)</label>
+          <input id="v_img" type="file" accept="image/jpeg,image/png,image/webp">
+          <p class="msg" id="variantMsg" role="status"></p>
+          <button class="btn" type="button" id="vAdd">Add size</button>
+        </div>
+      </section>
+
+      <section data-panel="reels" class="hidden">
+        <h2>Reels</h2>
+        <div class="card">
+          <form id="reelForm">
+            <label for="r_title">Title (optional)</label>
+            <input id="r_title" maxlength="80">
+            <label for="r_video">Video (MP4, vertical, under 10 MB)</label>
+            <input id="r_video" type="file" accept="video/mp4,video/webm" required>
+            <p class="msg" id="reelMsg" role="status"></p>
+            <button class="btn" type="submit" id="reelBtn">Upload reel</button>
+          </form>
+        </div>
+        <div class="card">
+          <div class="tablewrap">
+            <table>
+              <thead><tr><th>Preview</th><th>Title</th><th>Order</th><th>Show</th><th></th></tr></thead>
+              <tbody id="reelRows"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section data-panel="inquiries" class="hidden">
+        <h2>Inquiries</h2>
+        <div class="card">
+          <p class="msg" id="inqMsg" role="status"></p>
+          <div class="tablewrap">
+            <table>
+              <thead><tr><th>Date</th><th>Name</th><th>Message</th><th>Status</th><th></th></tr></thead>
+              <tbody id="inqBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section data-panel="settings" class="hidden">
+        <h2>Settings</h2>
+
+        <div class="card">
+          <form id="settingsForm">
+            <label for="s_ship">Shipping fee (per order)</label><input id="s_ship" type="number" min="0" step="1">
+            <label for="s_cur">Currency</label><input id="s_cur" maxlength="10">
+            <label for="s_wa">WhatsApp number (with country code, no +)</label><input id="s_wa" maxlength="20">
+            <label for="s_mail">Business email</label><input id="s_mail" type="email" maxlength="120">
+            <p class="msg" id="settingsMsg" role="status"></p>
+            <button class="btn" type="submit">Save settings</button>
+          </form>
+        </div>
+
+        <div class="card">
+          <h3 style="margin-bottom:6px">Payment methods</h3>
+          <p style="color:var(--muted);font-size:.85rem">Only turn on methods you really have. Details are shown to customers at checkout.</p>
+          <form id="payForm">
+            <label for="pay_cod_on">Cash on Delivery</label>
+            <select id="pay_cod_on"><option value="true">On</option><option value="false">Off</option></select>
+
+            <label for="pay_jazzcash_on">JazzCash</label>
+            <select id="pay_jazzcash_on"><option value="false">Off</option><option value="true">On</option></select>
+            <div class="row2">
+              <div><label for="pay_jazzcash_title">Account title</label><input id="pay_jazzcash_title" maxlength="80"></div>
+              <div><label for="pay_jazzcash_no">JazzCash number</label><input id="pay_jazzcash_no" maxlength="30"></div>
+            </div>
+
+            <label for="pay_easypaisa_on">Easypaisa</label>
+            <select id="pay_easypaisa_on"><option value="false">Off</option><option value="true">On</option></select>
+            <div class="row2">
+              <div><label for="pay_easypaisa_title">Account title</label><input id="pay_easypaisa_title" maxlength="80"></div>
+              <div><label for="pay_easypaisa_no">Easypaisa number</label><input id="pay_easypaisa_no" maxlength="30"></div>
+            </div>
+
+            <label for="pay_bank_on">Bank Transfer</label>
+            <select id="pay_bank_on"><option value="false">Off</option><option value="true">On</option></select>
+            <label for="pay_bank_details">Bank name, account title, account number / IBAN</label>
+            <textarea id="pay_bank_details" rows="3" maxlength="400"></textarea>
+
+            <p class="msg" id="payMsg" role="status"></p>
+            <button class="btn" type="submit">Save payment methods</button>
+          </form>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="config.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>
